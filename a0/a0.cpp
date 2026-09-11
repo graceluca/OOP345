@@ -4,9 +4,9 @@ auto main() -> int {
     std::string subject, name, number, email, repo;
     std::cout << "#### Workshop Zero ####" << std::endl
         << "Subject and Section:" << std::endl
-        << "OOP244 NAA"
+        << "OOP244 NAA" << std::endl
         << "Name:" << std::endl
-        << "Grace Currier-Moritsugu"
+        << "Grace Currier-Moritsugu" << std::endl
         << "Student Number:" << std::endl
         << "136335247" << std::endl 
         << "Email:" << std::endl
