@@ -11,7 +11,7 @@ auto main() -> int {
         << "136335247" << std::endl 
         << "Email:" << std::endl
         << "gcurrier-moritsugu@myseneca.ca" << std::endl
-        << "Github repository:" << std::endl
+        << "Github repository URL:" << std::endl
         << "https://github.com/graceluca/OOP345";
     return 0;
 }
