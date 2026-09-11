@@ -1,7 +1,6 @@
 #include <iostream>
 using namespace std;
 auto main() -> int {
-    std::string subject, name, number, email, repo;
     std::cout << "#### Workshop Zero ####" << std::endl
         << "Subject and Section:" << std::endl
         << "OOP244 NAA" << std::endl
