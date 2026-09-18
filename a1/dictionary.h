@@ -49,6 +49,8 @@ namespace seneca {
         public: 
             Dictionary();
             Dictionary(const char* filename);
+            void searchWord(const char* word);
+            
         
     }
 }
