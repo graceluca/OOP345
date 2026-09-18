@@ -25,7 +25,42 @@ using namespace std;
 namespace seneca {
 
     void Dictionary::allocateWord(const std::string line, const int dest) {
-       
+        vector<string> split;
+        stringstream ss(line);
+        while (ss.good()) {
+            std::string substr;
+            std::getline(ss, substr, ',');
+            split.push_back(substr);
+        }
+        m_words[dest].m_word = split[0];
+        m_words[dest].m_definition = split[2]; 
+        if (split[1] == "n." || split[1] == "n. pl") {
+            m_words[dest].m_pos = PartOfSpeech::Noun;
+        }
+        else if (split[1] == "adv.") {
+            m_words[dest].m_pos = PartOfSpeech::Adverb;
+        }
+        else if (split[1] == "a.") {
+            m_words[dest].m_pos = PartOfSpeech::Adjective;
+        }
+        else if (split[1] == "v." || split[1] == "v. i." || split[1] == "v. t." || split[1] == "v. t. & i.") {
+            m_words[dest].m_pos = PartOfSpeech::Verb;
+        }
+        else if (split[1] == "prep.") {
+            m_words[dest].m_pos = PartOfSpeech::Preposition;
+        }
+        else if (split[1] == "pron.") {
+            m_words[dest].m_pos = PartOfSpeech::Pronoun;
+        }
+        else if (split[1] == "conj.") {
+            m_words[dest].m_pos = PartOfSpeech::Conjunction;
+        }
+        else if (split[1] == "interj.") {
+            m_words[dest].m_pos = PartOfSpeech::Interjection;
+        }
+        else {
+            m_words[dest].m_pos = PartOfSpeech::Unknown;
+        }
     }
 
     Dictionary::Dictionary() : m_wordCount(0) {
@@ -40,9 +75,12 @@ namespace seneca {
         }
         std::string line;
         m_wordCount = 0;
+        m_words = new Word[];
         while (std::getline(file, line)) {
             allocateWord(line, m_wordCount);
             m_wordCount++;
         }
+    }
+    void Dictionary::searchWord(const char* word) {
     }
 }
