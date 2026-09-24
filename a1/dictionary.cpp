@@ -21,10 +21,11 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <vector>
 using namespace std;
 namespace seneca {
 
-    void Dictionary::allocateWord(const std::string line, const int dest) {
+    void Dictionary::allocateWord(const std::string line, const std::size_t dest) {
         vector<string> split;
         stringstream ss(line);
         while (ss.good()) {

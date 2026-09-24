@@ -18,7 +18,6 @@
 #ifndef SENECA_DICTIONARY_H
 #define SENECA_DICTIONARY_H
 #include <iostream>
-#include <vector>
 namespace seneca {
     enum class PartOfSpeech
     {
@@ -44,8 +43,8 @@ namespace seneca {
     class Dictionary {
         private: 
             Word* m_words;
-            int m_wordCount;
-            void allocateWord(const std::string line, const int dest);
+            std::size_t m_wordCount;
+            void allocateWord(const std::string line, const std::size_t dest);
         public: 
             Dictionary();
             Dictionary(const char* filename);
