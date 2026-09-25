@@ -17,7 +17,7 @@ Version Date      Reason
 1.0     2026/09/24 Initial release
 -----------------------------------------------------------
 */
- 
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <cstring>
 #include "Message.h"
@@ -49,7 +49,7 @@ namespace seneca {
     // Implement the copy constructor.
  
     Message::Message(const Message& other) {
-        *this = other;
+       operator=(other);
     }
  
     // TODO:
@@ -59,7 +59,7 @@ namespace seneca {
         if(this != &other) {
             delete[] m_text;
             m_text = nullptr;
-            if (other.empty()) {
+            if (!other.empty()) {
                 m_text = new char[strlen(other.text()) + 1];
                 strcpy(m_text, other.text());
             }
