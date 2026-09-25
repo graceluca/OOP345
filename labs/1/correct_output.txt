@@ -1,0 +1,33 @@
+1. Construction
+--------------
+Rule of Five [High]
+ 
+2. Copy Constructor
+-------------------
+Original: Rule of Five [High]
+Copy    : Rule of Five [High]
+ 
+3. Copy Assignment
+------------------
+Before assignment: Old Message [Low]
+After assignment : Rule of Five [High]
+ 
+4. Self Assignment
+------------------
+After self assignment: Rule of Five [High]
+ 
+5. Move Constructor
+-------------------
+Moved object : Rule of Five [High]
+Source object: Empty Message
+ 
+6. Move Assignment
+------------------
+Destination before move: Temporary [Low]
+Destination after move : Rule of Five [High]
+Source after move      : Empty Message
+ 
+7. Empty Object
+---------------
+empty(): true
+Empty Message

@@ -42,13 +42,16 @@ namespace seneca {
     // Implement the destructor.
  
     Message::~Message(){
-        delete[] m_text;
+        if (!empty()) {
+            delete[] m_text;
+        }
     }
 
     // TODO:
     // Implement the copy constructor.
  
     Message::Message(const Message& other) {
+        m_text = nullptr;
        operator=(other);
     }
  
@@ -80,6 +83,8 @@ namespace seneca {
 
     Message& Message::operator=(Message&& other) noexcept { 
         if (this != &other) {
+            delete[] m_text;
+
             m_text = other.m_text;
             m_priority = other.priority();
             other.m_text = nullptr;
