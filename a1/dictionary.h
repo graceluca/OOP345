@@ -13,6 +13,7 @@
 // -----------------------------------------------------------
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  09/18/2026      Beginning dictionary module
+// Grace Currier-Moritsugu  09/28/2026      Trying to figure out a search algorithm
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #ifndef SENECA_DICTIONARY_H
