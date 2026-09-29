@@ -22,6 +22,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <cctype>
 using namespace std;
 namespace seneca {
 
@@ -82,6 +83,17 @@ namespace seneca {
             m_wordCount++;
         }
     }
-    void Dictionary::searchWord(const char* word) {
+    Word* Dictionary::searchWord(const char* word) {
+        std::size_t low = 0;
+        std::size_t high = m_wordCount - 1;
+        std::size_t mid = high / 2;
+        while (word[0] != '\0' && m_words[mid].m_word != word) {
+            if (word[0] < m_words[mid].m_word[0]) {
+                mid /= 2;
+            }
+            else if (word[0] > m_words[mid].m_word[0]) {
+                mid *= 2;
+            }
+
     }
 }
