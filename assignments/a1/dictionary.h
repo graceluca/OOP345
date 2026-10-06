@@ -49,7 +49,9 @@ namespace seneca {
         public: 
             Dictionary();
             Dictionary(const char* filename);
-            Word* searchWord(const char* word);
+            bool wordMatch(const std::size_t index, const std::string word);
+            void printWord(const std::size_t index, const bool multiple);
+            void searchWord(const std::string word);
             
         
     }

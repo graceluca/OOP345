@@ -18,7 +18,9 @@
 ***********************************************************************/
 
 #include "dictionary.h"
+#include "settings.h"
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -26,6 +28,8 @@
 #include <cctype>
 using namespace std;
 namespace seneca {
+
+    
 
     void Dictionary::allocateWord(const std::string line, const std::size_t dest) {
         vector<string> split;
@@ -78,23 +82,49 @@ namespace seneca {
         }
         std::string line;
         m_wordCount = 0;
-        m_words = new Word[];
+        
         while (std::getline(file, line)) {
-            allocateWord(line, m_wordCount);
             m_wordCount++;
         }
-    }
-    Word* Dictionary::searchWord(const char* word) {
-        std::size_t low = 0;
-        std::size_t high = m_wordCount - 1;
-        std::size_t mid = high / 2;
-        while (word[0] != '\0' && m_words[mid].m_word != word) {
-            if (word[0] < m_words[mid].m_word[0]) {
-                mid /= 2;
-            }
-            else if (word[0] > m_words[mid].m_word[0]) {
-                mid *= 2;
-            }
 
+        m_words = new Word[m_wordCount + 1];
+        file.clear();
+        file.seekg(0, ios::beg);
+        std::string line2;
+        std::size_t i = 0;
+        while(std::getline(file,line2)) {
+            allocateWord(line2, i);
+            i++;
+        }
     }
+
+    bool Dictionary::wordMatch(const std::size_t index, const std::string word){
+        return m_words->m_word[index] == word;
+    }
+
+    void Dictionary::printWord(const std::size_t index, const bool multiple) {
+        if (!multiple) {
+            std::cout << m_words[index].m_word;
+        }
+        else {
+            std::cout << std::setw(m_words[index].m_word.length());
+        }
+        std::cout << " - " << m_words[index].m_definition;
+        
+    }
+
+    void Dictionary::searchWord(const std::string word) {
+        bool multiple = false;
+        for (std::size_t i = 0; i < m_wordCount; i++) {
+        if (wordMatch(i, word)) {
+                printWord(i, multiple);
+                if (!g_settings.m_show_all) {
+                    break;
+                }
+                multiple = true;
+            }
+            }
+        }
+    }
+
 }
