@@ -1,0 +1,127 @@
+==41609== Memcheck, a memory error detector
+==41609== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==41609== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==41609== Command: ./asgn english_large.csv english_small.csv
+==41609== 
+Command Line:
+------------------------------------------------------
+  1: ./asgn
+  2: english_large.csv
+  3: english_small.csv
+------------------------------------------------------
+
+T1: Search for some words
+==========:==========:==========:==========:==========
+Computer - (noun) One who computes.
+
+Zigzag - (noun) Something that has short turns or angles.
+   - (noun) "A molding running in a zigzag line; a chevron
+   - (noun) See Boyau.
+   - (adjective) "Having short
+   - (verb) To form with short turns.
+   - (verb) "To move in a zigzag manner; also
+
+Apple - (noun) The fleshy pome or fruit of a rosaceous tree (Pyrus malus) cultivated in numberless varieties in the temperate zones.
+  - (noun) Any tree genus Pyrus which has the stalk sunken into the base of the fruit; an apple tree.
+  - (noun) "Any fruit or other vegetable production resembling
+  - (noun) "Anything round like an apple; as
+  - (verb) To grow like an apple; to bear apples.
+
+Germanize - (verb) "To make German
+      - (verb) To reason or write after the manner of the Germans.
+
+Passport - (noun) "Permission to pass; a document given by the competent officer of a state
+     - (noun) "A document carried by neutral merchant vessels in time of war
+     - (noun) A license granted in time of war for the removal of persons and effects from a hostile country; a safe-conduct.
+     - (noun) Figuratively: Anything which secures advancement and general acceptance.
+
+Gone - (unknown) of Go
+ - (unknown) p. p. of Go.
+
+Word 'Laptop' was not found in the dictionary.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+T2: Copy Constructor
+==========:==========:==========:==========:==========
+Apple - () The fleshy pome or fruit of a rosaceous tree (Pyrus malus) cultivated in numberless varieties in the temperate zones.
+Ywis - () Certainly; most likely; truly; probably.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+T3: Copy Assignment Operator
+==========:==========:==========:==========:==========
+Efficience - () Alt. of Efficiency
+Apple - () The fleshy pome or fruit of a rosaceous tree (Pyrus malus) cultivated in numberless varieties in the temperate zones.
+Ywis - () Certainly; most likely; truly; probably.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+T4: Move Constructor
+==========:==========:==========:==========:==========
+Word 'Apple' was not found in the dictionary.
+Ywis - () Certainly; most likely; truly; probably.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+T5: Move Assignment Operator
+==========:==========:==========:==========:==========
+Efficience - () Alt. of Efficiency
+Word 'Apple' was not found in the dictionary.
+Ywis - () Certainly; most likely; truly; probably.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+T6: Search Time Measurements
+==========:==========:==========:==========:==========
+Apple - () The fleshy pome or fruit of a rosaceous tree (Pyrus malus) cultivated in numberless varieties in the temperate zones.
+Apple - () The fleshy pome or fruit of a rosaceous tree (Pyrus malus) cultivated in numberless varieties in the temperate zones.
+  - () Any tree genus Pyrus which has the stalk sunken into the base of the fruit; an apple tree.
+  - () "Any fruit or other vegetable production resembling
+  - () "Anything round like an apple; as
+  - () To grow like an apple; to bear apples.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+ 1:                     Default Constructor ->      560426 nanoseconds
+ 1:                      Custom Constructor ->  1387519931 nanoseconds
+ 1:                        Copy Constructor ->   681495935 nanoseconds
+ 1:                Copy Assignment Operator ->   678425860 nanoseconds
+ 1:                        Move Constructor ->  1117121262 nanoseconds
+ 1:                Move Assignment Operator ->   971750490 nanoseconds
+ 1:                              Destructor ->   223772076 nanoseconds
+ 1:     Search for a word (first occurence) ->     6120291 nanoseconds
+ 1:      Search for a word (all occurences) ->   173961323 nanoseconds
+
+ 1:                     Default Constructor ->      560 microseconds
+ 1:                      Custom Constructor -> 18567389 microseconds
+ 1:                        Copy Constructor ->   681495 microseconds
+ 1:                Copy Assignment Operator ->   678425 microseconds
+ 1:                        Move Constructor ->  1117121 microseconds
+ 1:                Move Assignment Operator ->   971750 microseconds
+ 1:                              Destructor ->   223772 microseconds
+ 1:     Search for a word (first occurence) ->     6120 microseconds
+ 1:      Search for a word (all occurences) ->   173961 microseconds
+
+ 1:                     Default Constructor ->     0 milliseconds
+ 1:                      Custom Constructor -> 18567 milliseconds
+ 1:                        Copy Constructor ->   681 milliseconds
+ 1:                Copy Assignment Operator ->   678 milliseconds
+ 1:                        Move Constructor ->  1117 milliseconds
+ 1:                Move Assignment Operator ->   971 milliseconds
+ 1:                              Destructor ->   223 milliseconds
+ 1:     Search for a word (first occurence) ->     6 milliseconds
+ 1:      Search for a word (all occurences) ->   173 milliseconds
+
+ 1:                     Default Constructor ->  0 seconds
+ 1:                      Custom Constructor -> 18 seconds
+ 1:                        Copy Constructor ->  0 seconds
+ 1:                Copy Assignment Operator ->  0 seconds
+ 1:                        Move Constructor ->  1 seconds
+ 1:                Move Assignment Operator ->  0 seconds
+ 1:                              Destructor ->  0 seconds
+ 1:     Search for a word (first occurence) ->  0 seconds
+ 1:      Search for a word (all occurences) ->  0 seconds
+==41609== 
+==41609== HEAP SUMMARY:
+==41609==     in use at exit: 0 bytes in 0 blocks
+==41609==   total heap usage: 2,503,705 allocs, 2,503,705 frees, 254,558,883 bytes allocated
+==41609== 
+==41609== All heap blocks were freed -- no leaks are possible
+==41609== 
+==41609== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

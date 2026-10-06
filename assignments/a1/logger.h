@@ -20,7 +20,6 @@
 #define SENECA_LOGGER_H
 #include <iostream>
 #include "timeMonitor.h"
-#include "event.h"
 namespace seneca {
     class Logger {
         private:

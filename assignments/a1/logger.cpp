@@ -18,7 +18,6 @@
 #include <iostream>
 #include "logger.h"
 #include "timeMonitor.h"
-#include "event.h"
 using namespace std;
 namespace seneca {
 

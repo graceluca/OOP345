@@ -73,7 +73,7 @@ namespace seneca {
     };
 
     std::ostream& operator<<(std::ostream& os, const Event& e) { 
-        int count = 0;
+        static int count = 0;
         os << std::setw(2) << std::right << ++count << ":" 
             << std::setw(40) << e.getName()
             << " -> " << std::setw(checkUnits(seneca::g_settings.m_time_units)) 

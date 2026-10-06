@@ -70,12 +70,25 @@ namespace seneca {
         }
     }
 
+    Dictionary::~Dictionary() {
+        if (m_words != nullptr) {
+            delete[] m_words;
+            m_words = nullptr;
+        }
+    }
+
     Dictionary::Dictionary(const char* filename) {
         m_words = nullptr;
+        if (filename == nullptr || filename[0] == '\0'){
+            *this = Dictionary();
+            return;
+        }
+
         std::ifstream file(filename);
 
         if (!file.is_open()) {
             *this = Dictionary();
+            return;
         }
 
         std::string line;
@@ -110,6 +123,7 @@ namespace seneca {
             if (m_words != nullptr) {
                 delete[] m_words;
                 m_words = nullptr;
+                m_wordCount = 0;
             }
             m_words = new Word[D.m_wordCount + 1];
             m_wordCount = D.m_wordCount;
@@ -121,6 +135,7 @@ namespace seneca {
     }
 
     Dictionary::Dictionary(Dictionary&& D) noexcept {
+        m_words = nullptr;
         *this = std::move(D);
     }
 
@@ -128,12 +143,16 @@ namespace seneca {
         if (this != &D) {
             if (m_words != nullptr) {
                 delete[] m_words;
+                m_words = nullptr;
             }
-            m_words = nullptr;
+            m_words = new Word[D.m_wordCount + 1];
             m_wordCount = D.m_wordCount;
-            m_words = D.m_words;
+            for (std::size_t i = 0; i < D.m_wordCount; i++) {
+                m_words[i] = D.m_words[i];
+            }
             delete[] D.m_words;
             D.m_words = nullptr;
+            D.m_wordCount = 0;
         }
         return *this;
     }
@@ -183,10 +202,11 @@ namespace seneca {
         else if (multiple) {
             std::cout << std::setw(m_words[index].m_word.length());
         }
-        std::cout << " - ("  
-            << (g_settings.m_verbose ? getStringPos(index) : "") 
-            << ") " 
-            << m_words[index].m_definition << std::endl;
+        std::cout << " - ";
+        if (g_settings.m_verbose) {
+            std::cout << "(" << getStringPos(index) << ") ";
+        }
+        std::cout << m_words[index].m_definition << std::endl;
     }
 
     void Dictionary::printWord(const char* word) const{
