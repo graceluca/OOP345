@@ -43,12 +43,17 @@ namespace seneca {
 
     class Dictionary {
         private: 
-            Word* m_words;
-            std::size_t m_wordCount;
+            Word* m_words = nullptr;
+            std::size_t m_wordCount{};
             void allocateWord(const std::string line, const std::size_t dest);
         public: 
-            Dictionary();
+            Dictionary() = default;
+            ~Dictionary();
             Dictionary(const char* filename);
+            Dictionary(const Dictionary& D);
+            Dictionary& operator=(const Dictionary& D);
+            Dictionary(Dictionary&& D) noexcept;
+            Dictionary& operator=(Dictionary&& D) noexcept;
             bool wordMatch(const std::size_t index, const char* word) const;
             std::string getStringPos(const std::size_t index) const;
             void printWord(const std::size_t index, const bool multiple) const;

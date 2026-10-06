@@ -24,6 +24,7 @@
 #include <string>
 using namespace std;
 namespace seneca {
+
     Event::Event(const char* name, const std::chrono::nanoseconds& duration) {
         m_name = name;
         m_duration = duration;
@@ -34,18 +35,20 @@ namespace seneca {
     }
 
     int Event::getDuration(const std::string units) const {
+        int intUnit;
         if (units == "seconds") {
-            return std::chrono::duration_cast<std::chrono::seconds>(m_duration).count();
+            intUnit = std::chrono::duration_cast<std::chrono::seconds>(m_duration).count();
         }
         else if (units == "milliseconds") {
-            return std::chrono::duration_cast<std::chrono::milliseconds>(m_duration).count();
+            intUnit = std::chrono::duration_cast<std::chrono::milliseconds>(m_duration).count();
         }
         else if (units == "microseconds") {
-            return std::chrono::duration_cast<std::chrono::microseconds>(m_duration).count();
+            intUnit = std::chrono::duration_cast<std::chrono::microseconds>(m_duration).count();
         }
         else if (units == "nanoseconds") {
-            return m_duration.count();
+            intUnit = m_duration.count();
         }
+        return intUnit;
         
     }
 
@@ -69,8 +72,7 @@ namespace seneca {
         return s;
     };
 
-
-    std::ostream& seneca::operator<<(std::ostream& os, const Event& e) { 
+    std::ostream& operator<<(std::ostream& os, const Event& e) { 
         int count = 0;
         os << std::setw(2) << std::right << ++count << ":" 
             << std::setw(40) << e.getName()
@@ -81,22 +83,32 @@ namespace seneca {
         return os;
     }
 
-    timeMonitor::timeMonitor() {
+    TimeMonitor::~TimeMonitor() {
+        delete[] m_name;
         m_name = nullptr;
     }
 
-    void timeMonitor::startEvent(const char* name) {
+    void TimeMonitor::startEvent(const char* name) {
+        delete[] m_name;
+        m_name = nullptr;
         m_name = new char[std::strlen(name) + 1];
         std::strcpy(m_name, name);
         auto now = std::chrono::system_clock::now();
         auto duration = now.time_since_epoch(); 
         m_start = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
     }
-    Event timeMonitor::stopEvent() {
+
+    Event TimeMonitor::stopEvent() {
         auto now = std::chrono::system_clock::now();
         auto duration = now.time_since_epoch();
         m_end = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
         Event e(m_name, m_end - m_start);
         return e;
     }   
+
+    
+    
+
+
+    
 }

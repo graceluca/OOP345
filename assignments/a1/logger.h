@@ -20,21 +20,22 @@
 #define SENECA_LOGGER_H
 #include <iostream>
 #include "timeMonitor.h"
+#include "event.h"
 namespace seneca {
     class Logger {
         private:
             Event* m_events{};
-            std::size_t m_capacity;
+            std::size_t m_capacity{};
             std::size_t m_numOfEvents{};
         public:
-            Logger();
+            Logger() = default;
             ~Logger();
             Logger(const Logger& L) = delete;
             Logger& operator=(const Logger& L) = delete;
             Logger(Logger&& L) noexcept;
             Logger& operator=(Logger&& L) noexcept;
             void addEvent(const Event& event);
-            friend std::ostream& operator<<(std::ostream& os, const Event& event);
+            friend std::ostream& operator<<(std::ostream& os, const Logger& log);
     };
 
 }

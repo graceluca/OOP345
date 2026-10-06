@@ -70,23 +70,21 @@ namespace seneca {
         }
     }
 
-    Dictionary::Dictionary() : m_wordCount(0) {
-        m_words = nullptr;
-    }
-
     Dictionary::Dictionary(const char* filename) {
+        m_words = nullptr;
         std::ifstream file(filename);
 
         if (!file.is_open()) {
             *this = Dictionary();
         }
+
         std::string line;
         m_wordCount = 0;
         
         while (std::getline(file, line)) {
             m_wordCount++;
         }
-
+        
         m_words = new Word[m_wordCount + 1];
         file.clear();
         file.seekg(0, ios::beg);
@@ -98,31 +96,84 @@ namespace seneca {
         }
     }
 
+    Dictionary::Dictionary(const Dictionary& D) {
+        m_words = nullptr;
+        m_words = new Word[D.m_wordCount + 1];
+        m_wordCount = D.m_wordCount;
+        for (std::size_t i = 0; i < D.m_wordCount; i++) {
+            m_words[i] = D.m_words[i];
+        }
+    }
+
+    Dictionary& Dictionary::operator=(const Dictionary& D) {
+        if (this != &D) {
+            if (m_words != nullptr) {
+                delete[] m_words;
+                m_words = nullptr;
+            }
+            m_words = new Word[D.m_wordCount + 1];
+            m_wordCount = D.m_wordCount;
+            for (std::size_t i = 0; i < D.m_wordCount; i++) {
+                m_words[i] = D.m_words[i];
+            }
+        }
+        return *this;
+    }
+
+    Dictionary::Dictionary(Dictionary&& D) noexcept {
+        *this = std::move(D);
+    }
+
+    Dictionary& Dictionary::operator=(Dictionary&& D) noexcept {
+        if (this != &D) {
+            if (m_words != nullptr) {
+                delete[] m_words;
+            }
+            m_words = nullptr;
+            m_wordCount = D.m_wordCount;
+            m_words = D.m_words;
+            delete[] D.m_words;
+            D.m_words = nullptr;
+        }
+        return *this;
+    }
+
+
     bool Dictionary::wordMatch(const std::size_t index, const char* word) const{
         return m_words[index].m_word == word;
     }
 
     std::string Dictionary::getStringPos(const std::size_t index) const{
+        std::string pos = "unknown";
         switch (m_words[index].m_pos) {
             case PartOfSpeech::Unknown:
-                return "unknown";
+                break;
             case PartOfSpeech::Noun:
-                return "noun";
+                pos = "noun";
+                break;
             case PartOfSpeech::Pronoun:
-                return "pronoun";
+                pos = "pronoun";
+                break;
             case PartOfSpeech::Adjective:
-                return "adjective";
+                pos = "adjective";
+                break;
             case PartOfSpeech::Adverb:
-                return "adverb";
+                pos = "adverb";
+                break;
             case PartOfSpeech::Verb:
-                return "verb";
+                pos = "verb";
+                break;
             case PartOfSpeech::Preposition:
-                return "preposition";
+                pos = "preposition";
+                break;
             case PartOfSpeech::Conjunction:
-                return "conjunction";
+                pos = "conjunction";
+                break;
             case PartOfSpeech::Interjection:
-                return "interjection";
+                pos = "interjection";
+                break;
         }
+        return pos;
     }
 
     void Dictionary::printWord(const std::size_t index, const bool multiple) const{
@@ -132,7 +183,10 @@ namespace seneca {
         else if (multiple) {
             std::cout << std::setw(m_words[index].m_word.length());
         }
-        std::cout << " - ("  << getStringPos(index) << ") " << m_words[index].m_definition;
+        std::cout << " - ("  
+            << (g_settings.m_verbose ? getStringPos(index) : "") 
+            << ") " 
+            << m_words[index].m_definition << std::endl;
     }
 
     void Dictionary::printWord(const char* word) const{

@@ -16,32 +16,43 @@
 // Grace Currier-Moritsugu  10/06/2026      Fixing units in getDuration
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
-#ifndef SENECA_TIMEMONITOR_H
-#define SENECA_TIMEMONITOR_H
+#ifndef SENECA_EVENT_H
+#define SENECA_EVENT_H
 #include <iostream>
 #include <chrono>
 namespace seneca {
     class Event {
         private: 
-            std::string m_name;
-            std::chrono::nanoseconds m_duration;
+            std::string m_name{};
+            std::chrono::nanoseconds m_duration{};
         public: 
+            Event() = default;
+            Event(const char* name, const std::chrono::nanoseconds& duration);
             std::string getName() const;
             int getDuration(const std::string units) const;
-            Event();
-            Event(const char* name, const std::chrono::nanoseconds& duration);
-        friend std::ostream& operator<<(std::ostream& os, const Event& e);
+            friend std::ostream& operator<<(std::ostream& os, const Event& e);
     };
     int checkUnits(const std::string units);
-    class timeMonitor {
+}
+#endif
+
+#ifndef SENECA_TIMEMONITOR_H
+#define SENECA_TIMEMONITOR_H
+#include <iostream>
+#include <chrono>
+namespace seneca {
+    
+    class TimeMonitor {
         private:    
             char* m_name = nullptr;
             std::chrono::nanoseconds m_start{};
             std::chrono::nanoseconds m_end{};
         public:
-            timeMonitor();
+            TimeMonitor() = default;
+            ~TimeMonitor();
             void startEvent(const char* name);
             Event stopEvent();
     };
 }
-#endif
+#endif  
+

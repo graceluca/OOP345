@@ -18,13 +18,9 @@
 #include <iostream>
 #include "logger.h"
 #include "timeMonitor.h"
+#include "event.h"
 using namespace std;
 namespace seneca {
-    Logger::Logger() {
-        m_events = nullptr;
-        m_capacity = 0;
-        m_numOfEvents = 0;
-    }
 
     Logger::~Logger() {
         if (m_events != nullptr) {
@@ -62,8 +58,10 @@ namespace seneca {
         m_numOfEvents++;
     }
 
-    std::ostream& operator<<(std::ostream& os, const Event& event) {
-        os << event << std::endl;
+    std::ostream& operator<<(std::ostream& os, const Logger& log) {
+        for (std::size_t i = 0; i < log.m_numOfEvents; i++) {
+            os << log.m_events[i] << std::endl;
+        }
         return os;
     }
 }

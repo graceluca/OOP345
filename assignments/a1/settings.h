@@ -33,7 +33,7 @@ namespace seneca {
     
     
     #pragma once
-    extern seneca::Settings g_settings;
+    extern Settings g_settings;
 
 }
 #endif
