@@ -1,5 +1,5 @@
 /***********************************************************************
-// OOP244 workshop 9, Dictionary module
+// OOP345 Assignment 1, Dictionary module
 //
 // File	dictionary.cpp
 // Author: Grace Currier-Moritsugu
@@ -14,6 +14,7 @@
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  09/18/2026      Beginning dictionary module
 // Grace Currier-Moritsugu  09/28/2026      Trying to figure out a search algorithm
+// Grace Currier-Moritsugu  10/06/2026      Realized an algorithm in unnecessary
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 
@@ -22,14 +23,13 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <cstring>
 #include <string>
 #include <sstream>
 #include <vector>
 #include <cctype>
 using namespace std;
 namespace seneca {
-
-    
 
     void Dictionary::allocateWord(const std::string line, const std::size_t dest) {
         vector<string> split;
@@ -98,33 +98,62 @@ namespace seneca {
         }
     }
 
-    bool Dictionary::wordMatch(const std::size_t index, const std::string word){
-        return m_words->m_word[index] == word;
+    bool Dictionary::wordMatch(const std::size_t index, const char* word) const{
+        return m_words[index].m_word == word;
     }
 
-    void Dictionary::printWord(const std::size_t index, const bool multiple) {
+    std::string Dictionary::getStringPos(const std::size_t index) const{
+        switch (m_words[index].m_pos) {
+            case PartOfSpeech::Unknown:
+                return "unknown";
+            case PartOfSpeech::Noun:
+                return "noun";
+            case PartOfSpeech::Pronoun:
+                return "pronoun";
+            case PartOfSpeech::Adjective:
+                return "adjective";
+            case PartOfSpeech::Adverb:
+                return "adverb";
+            case PartOfSpeech::Verb:
+                return "verb";
+            case PartOfSpeech::Preposition:
+                return "preposition";
+            case PartOfSpeech::Conjunction:
+                return "conjunction";
+            case PartOfSpeech::Interjection:
+                return "interjection";
+        }
+    }
+
+    void Dictionary::printWord(const std::size_t index, const bool multiple) const{
         if (!multiple) {
             std::cout << m_words[index].m_word;
         }
-        else {
+        else if (multiple) {
             std::cout << std::setw(m_words[index].m_word.length());
         }
-        std::cout << " - " << m_words[index].m_definition;
-        
+        std::cout << " - ("  << getStringPos(index) << ") " << m_words[index].m_definition;
     }
 
-    void Dictionary::searchWord(const std::string word) {
-        bool multiple = false;
+    void Dictionary::printWord(const char* word) const{
+        std::cout << "Word '" << word << "' was not found in the dictionary." << std::endl;
+    }
+
+    void Dictionary::searchWord(const char* word) {
+        bool matchMade = false, multiple = false;
         for (std::size_t i = 0; i < m_wordCount; i++) {
-        if (wordMatch(i, word)) {
+            if (wordMatch(i, word)) {
+                matchMade = true;
                 printWord(i, multiple);
                 if (!g_settings.m_show_all) {
                     break;
                 }
                 multiple = true;
             }
-            }
+        }
+        if (!matchMade) {
+            printWord(word);
         }
     }
-
 }
+

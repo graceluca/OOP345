@@ -1,5 +1,5 @@
 /***********************************************************************
-// OOP244 workshop 9, Dictionary module
+// OOP244 workshop 9, logger module
 //
 // File	logger.h
 // Author: Grace Currier-Moritsugu
@@ -13,23 +13,29 @@
 // -----------------------------------------------------------
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  09/24/2026      Beginning logger module
+// Grace Currier-Moritsugu  10/06/2026      Adding in the rest of it
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #ifndef SENECA_LOGGER_H
 #define SENECA_LOGGER_H
 #include <iostream>
+#include "timeMonitor.h"
 namespace seneca {
     class Logger {
         private:
-            Event* m_events;
-            std::size_t numOfEvents;
+            Event* m_events{};
+            std::size_t m_capacity;
+            std::size_t m_numOfEvents{};
         public:
-            Logger() = default;
+            Logger();
             ~Logger();
             Logger(const Logger& L) = delete;
-            Logger& operator=(const Logger& L) noexcept;
-            void addEvent(const Event& E);
-            friend std::ostream& operator<<(std::ostream& os, const Event& E);
-    }
+            Logger& operator=(const Logger& L) = delete;
+            Logger(Logger&& L) noexcept;
+            Logger& operator=(Logger&& L) noexcept;
+            void addEvent(const Event& event);
+            friend std::ostream& operator<<(std::ostream& os, const Event& event);
+    };
+
 }
 #endif

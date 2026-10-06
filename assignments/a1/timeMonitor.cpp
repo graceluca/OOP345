@@ -1,5 +1,5 @@
 /***********************************************************************
-// OOP244 workshop 9, timeMonitor module
+// OOP345 Assignment 1, timeMonitor module
 //
 // File	timeMonitor.cpp
 // Author: Grace Currier-Moritsugu
@@ -13,12 +13,14 @@
 // -----------------------------------------------------------
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  09/18/2026      Beginning timeMonitor module
+// Grace Currier-Moritsugu  10/06/2026      Fixing units in getDuration
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #include "timeMonitor.h"
 #include "settings.h"
 #include <iostream>
 #include <iomanip>
+#include <cstring>
 #include <string>
 using namespace std;
 namespace seneca {
@@ -31,8 +33,20 @@ namespace seneca {
         return m_name;
     }
 
-    std::chrono::nanoseconds Event::getDuration() const {
-        return m_duration;
+    int Event::getDuration(const std::string units) const {
+        if (units == "seconds") {
+            return std::chrono::duration_cast<std::chrono::seconds>(m_duration).count();
+        }
+        else if (units == "milliseconds") {
+            return std::chrono::duration_cast<std::chrono::milliseconds>(m_duration).count();
+        }
+        else if (units == "microseconds") {
+            return std::chrono::duration_cast<std::chrono::microseconds>(m_duration).count();
+        }
+        else if (units == "nanoseconds") {
+            return m_duration.count();
+        }
+        
     }
 
     int checkUnits(const std::string units) {
@@ -61,10 +75,28 @@ namespace seneca {
         os << std::setw(2) << std::right << ++count << ":" 
             << std::setw(40) << e.getName()
             << " -> " << std::setw(checkUnits(seneca::g_settings.m_time_units)) 
-            << e.getDuration() 
+            << e.getDuration(seneca::g_settings.m_time_units) 
             << " "
-            << seneca::g_settings.m_time_units 
-            << std::endl;
+            << seneca::g_settings.m_time_units;
         return os;
     }
+
+    timeMonitor::timeMonitor() {
+        m_name = nullptr;
+    }
+
+    void timeMonitor::startEvent(const char* name) {
+        m_name = new char[std::strlen(name) + 1];
+        std::strcpy(m_name, name);
+        auto now = std::chrono::system_clock::now();
+        auto duration = now.time_since_epoch(); 
+        m_start = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+    }
+    Event timeMonitor::stopEvent() {
+        auto now = std::chrono::system_clock::now();
+        auto duration = now.time_since_epoch();
+        m_end = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+        Event e(m_name, m_end - m_start);
+        return e;
+    }   
 }

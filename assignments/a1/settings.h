@@ -1,5 +1,5 @@
 /***********************************************************************
-// OOP244 workshop 9, Settings module
+// OOP345 Assignment 1, Settings module
 //
 // File	settings.h
 // Author: Grace Currier-Moritsugu
@@ -13,6 +13,7 @@
 // -----------------------------------------------------------
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  09/18/2026      Beginning settings module
+// Grace Currier-Moritsugu  10/06/2026      Fixing default aspects
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #ifndef SENECA_SETTINGS_H
@@ -24,10 +25,10 @@ namespace seneca {
 
     class Settings {
         public:
-            bool m_show_all;
-            bool m_verbose;
-            std::string m_time_units;
-            Settings();
+            bool m_show_all = false;
+            bool m_verbose = false;
+            std::string m_time_units = "nanoseconds";
+            Settings() = default;
     };
     
     

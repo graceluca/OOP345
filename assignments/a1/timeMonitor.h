@@ -1,5 +1,5 @@
 /***********************************************************************
-// OOP244 workshop 9, timeMonitor module
+// OOP244 Assignment 1, timeMonitor module
 //
 // File	timeMonitor.h
 // Author: Grace Currier-Moritsugu
@@ -13,6 +13,7 @@
 // -----------------------------------------------------------
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  09/18/2026      Beginning timeMonitor module
+// Grace Currier-Moritsugu  10/06/2026      Fixing units in getDuration
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #ifndef SENECA_TIMEMONITOR_H
@@ -26,16 +27,21 @@ namespace seneca {
             std::chrono::nanoseconds m_duration;
         public: 
             std::string getName() const;
-            std::chrono::nanoseconds getDuration() const;
+            int getDuration(const std::string units) const;
             Event();
             Event(const char* name, const std::chrono::nanoseconds& duration);
         friend std::ostream& operator<<(std::ostream& os, const Event& e);
     };
     int checkUnits(const std::string units);
     class timeMonitor {
+        private:    
+            char* m_name = nullptr;
+            std::chrono::nanoseconds m_start{};
+            std::chrono::nanoseconds m_end{};
         public:
+            timeMonitor();
             void startEvent(const char* name);
             Event stopEvent();
-    }
+    };
 }
 #endif

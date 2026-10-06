@@ -1,5 +1,5 @@
 /***********************************************************************
-// OOP244 workshop 9, Dictionary module
+// OOP345 Assignment 1, Dictionary module
 //
 // File	dictionary.h
 // Author: Grace Currier-Moritsugu
@@ -49,11 +49,15 @@ namespace seneca {
         public: 
             Dictionary();
             Dictionary(const char* filename);
-            bool wordMatch(const std::size_t index, const std::string word);
-            void printWord(const std::size_t index, const bool multiple);
-            void searchWord(const std::string word);
+            bool wordMatch(const std::size_t index, const char* word) const;
+            std::string getStringPos(const std::size_t index) const;
+            void printWord(const std::size_t index, const bool multiple) const;
+            void printWord(const char* word) const;
+            void searchWord(const char* word);
+            
             
         
-    }
+    };
+    
 }
 #endif
