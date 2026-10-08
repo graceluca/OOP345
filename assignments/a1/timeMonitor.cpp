@@ -18,6 +18,7 @@
 ***********************************************************************/
 #include "timeMonitor.h"
 #include "settings.h"
+#include "event.h"
 #include <iostream>
 #include <iomanip>
 #include <cstring>
