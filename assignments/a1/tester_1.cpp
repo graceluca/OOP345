@@ -8,7 +8,7 @@
 #include "timeMonitor.h"     // intentional
 #include "logger.h"
 #include "logger.h"          // intentional
-#incldue "event.h"
+#include "event.h"
 #include "event.h"
 
 // Cheching if header guards exist and follow convention.

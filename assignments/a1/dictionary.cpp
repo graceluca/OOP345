@@ -14,7 +14,8 @@
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  09/18/2026      Beginning dictionary module
 // Grace Currier-Moritsugu  09/28/2026      Trying to figure out a search algorithm
-// Grace Currier-Moritsugu  10/06/2026      Realized an algorithm in unnecessary
+// Grace Currier-Moritsugu  10/06/2026      Realized an algorithm is unnecessary
+// Grace Currier-Moritsugu  10/08/2026      Trying to fix issues with the difference in outputs
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 
@@ -25,44 +26,46 @@
 #include <fstream>
 #include <cstring>
 #include <string>
-#include <sstream>
-#include <vector>
 #include <cctype>
+#include <string_view>
 using namespace std;
 namespace seneca {
 
-    void Dictionary::allocateWord(const std::string line, const std::size_t dest) {
-        vector<string> split;
-        stringstream ss(line);
-        while (ss.good()) {
-            std::string substr;
-            std::getline(ss, substr, ',');
-            split.push_back(substr);
+    void Dictionary::allocateWord(const std::string& line, const std::size_t dest) {
+        std::size_t comma1 = line.find(',');
+        std::size_t comma2 = line.find(',', comma1 + 1);
+        if (comma1 == std::string::npos || comma2 == std::string::npos) {
+            m_words[dest].m_word = "Unknown";
+            m_words[dest].m_definition = "Unknown";
+            m_words[dest].m_pos = PartOfSpeech::Unknown;
+            return;
         }
-        m_words[dest].m_word = split[0];
-        m_words[dest].m_definition = split[2]; 
-        if (split[1] == "n." || split[1] == "n. pl") {
+        std::string_view pos(line.data() + comma1 + 1, comma2 - comma1 - 1);
+        m_words[dest].m_word.assign(line, 0, comma1);
+        m_words[dest].m_definition.assign(line, comma2 + 1); 
+        
+        if (pos == "n." || pos == "n. pl") {
             m_words[dest].m_pos = PartOfSpeech::Noun;
         }
-        else if (split[1] == "adv.") {
+        else if (pos == "adv.") {
             m_words[dest].m_pos = PartOfSpeech::Adverb;
         }
-        else if (split[1] == "a.") {
+        else if (pos == "a.") {
             m_words[dest].m_pos = PartOfSpeech::Adjective;
         }
-        else if (split[1] == "v." || split[1] == "v. i." || split[1] == "v. t." || split[1] == "v. t. & i.") {
+        else if (pos == "v." || pos == "v. i." || pos == "v. t." || pos == "v. t. & i.") {
             m_words[dest].m_pos = PartOfSpeech::Verb;
         }
-        else if (split[1] == "prep.") {
+        else if (pos == "prep.") {
             m_words[dest].m_pos = PartOfSpeech::Preposition;
         }
-        else if (split[1] == "pron.") {
+        else if (pos == "pron.") {
             m_words[dest].m_pos = PartOfSpeech::Pronoun;
         }
-        else if (split[1] == "conj.") {
+        else if (pos == "conj.") {
             m_words[dest].m_pos = PartOfSpeech::Conjunction;
         }
-        else if (split[1] == "interj.") {
+        else if (pos == "interj.") {
             m_words[dest].m_pos = PartOfSpeech::Interjection;
         }
         else {
@@ -135,22 +138,17 @@ namespace seneca {
     }
 
     Dictionary::Dictionary(Dictionary&& D) noexcept {
-        m_words = nullptr;
-        *this = std::move(D);
+        m_words = D.m_words;
+        m_wordCount = D.m_wordCount;
+        D.m_words = nullptr;
+        D.m_wordCount = 0;
     }
 
     Dictionary& Dictionary::operator=(Dictionary&& D) noexcept {
         if (this != &D) {
-            if (m_words != nullptr) {
-                delete[] m_words;
-                m_words = nullptr;
-            }
-            m_words = new Word[D.m_wordCount + 1];
+            delete[] m_words;
+            m_words = D.m_words;
             m_wordCount = D.m_wordCount;
-            for (std::size_t i = 0; i < D.m_wordCount; i++) {
-                m_words[i] = D.m_words[i];
-            }
-            delete[] D.m_words;
             D.m_words = nullptr;
             D.m_wordCount = 0;
         }
@@ -200,10 +198,10 @@ namespace seneca {
             std::cout << m_words[index].m_word;
         }
         else if (multiple) {
-            std::cout << std::setw(m_words[index].m_word.length());
+            std::cout << std::setw(m_words[index].m_word.length()) << "";
         }
         std::cout << " - ";
-        if (g_settings.m_verbose) {
+        if (g_settings.m_verbose && m_words[index].m_pos != PartOfSpeech::Unknown) {
             std::cout << "(" << getStringPos(index) << ") ";
         }
         std::cout << m_words[index].m_definition << std::endl;

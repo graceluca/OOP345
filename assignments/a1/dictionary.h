@@ -14,6 +14,8 @@
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  09/18/2026      Beginning dictionary module
 // Grace Currier-Moritsugu  09/28/2026      Trying to figure out a search algorithm
+// Grace Currier-Moritsugu  10/06/2026      Realized an algorithm is unnecessary
+// Grace Currier-Moritsugu  10/08/2026      Trying to fix issues with the difference in outputs
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #ifndef SENECA_DICTIONARY_H
@@ -45,7 +47,7 @@ namespace seneca {
         private: 
             Word* m_words = nullptr;
             std::size_t m_wordCount{};
-            void allocateWord(const std::string line, const std::size_t dest);
+            void allocateWord(const std::string& line, const std::size_t dest);
         public: 
             Dictionary() = default;
             ~Dictionary();
