@@ -71,11 +71,10 @@ namespace seneca {
 
     std::ostream& operator<<(std::ostream& os, const Event& e) { 
         static int count = 0;
-        os << std::setw(2) << std::right << ++count << ":" 
-            << std::setw(40) << e.getName()
-            << " -> " << std::setw(checkUnits(seneca::g_settings.m_time_units)) 
+        os << std::right << std::setw(2) << ++count << ":" 
+            << std::setw(41) << e.getName()
+            << " -> " << std::setw(checkUnits(seneca::g_settings.m_time_units))
             << e.getDuration(seneca::g_settings.m_time_units) 
-            << " "
             << seneca::g_settings.m_time_units;
         return os;
     }
