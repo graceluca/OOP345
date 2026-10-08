@@ -29,7 +29,7 @@ namespace seneca {
             Event() = default;
             Event(const char* name, const std::chrono::nanoseconds& duration);
             std::string getName() const;
-            int getDuration(const std::string units) const;
+            long long getDuration(const std::string units) const;
             friend std::ostream& operator<<(std::ostream& os, const Event& e);
     };
     int checkUnits(const std::string units);

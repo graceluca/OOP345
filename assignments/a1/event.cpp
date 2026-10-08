@@ -31,21 +31,21 @@ namespace seneca {
         return m_name;
     }
 
-    int Event::getDuration(const std::string units) const {
-        int intUnit;
+    long long Event::getDuration(const std::string units) const {
+        long long longUnit = 0;
         if (units == "seconds") {
-            intUnit = std::chrono::duration_cast<std::chrono::seconds>(m_duration).count();
+            longUnit = std::chrono::duration_cast<std::chrono::seconds>(m_duration).count();
         }
         else if (units == "milliseconds") {
-            intUnit = std::chrono::duration_cast<std::chrono::milliseconds>(m_duration).count();
+            longUnit = std::chrono::duration_cast<std::chrono::milliseconds>(m_duration).count();
         }
         else if (units == "microseconds") {
-            intUnit = std::chrono::duration_cast<std::chrono::microseconds>(m_duration).count();
+            longUnit = std::chrono::duration_cast<std::chrono::microseconds>(m_duration).count();
         }
         else if (units == "nanoseconds") {
-            intUnit = m_duration.count();
+            longUnit = m_duration.count();
         }
-        return intUnit;
+        return longUnit;
         
     }
 
