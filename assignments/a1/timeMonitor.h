@@ -21,6 +21,7 @@
 #define SENECA_TIMEMONITOR_H
 #include <iostream>
 #include <chrono>
+#include "event.h"
 namespace seneca {
     
     class TimeMonitor {
