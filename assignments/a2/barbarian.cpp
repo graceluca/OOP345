@@ -35,9 +35,9 @@ namespace seneca {
     template <typename T, typename Ability_t, typename Weapon_t>
     Barbarian<T, Ability_t, Weapon_t>::Barbarian(const Barbarian& other) 
     : CharacterTpl(other), 
-        m_baseAttack(other.m_baseAttack), m_baseDefense(other.m_baseDefense),
+        m_baseAttack(other.m_baseAttack), m_baseDefense(other.m_baseDefense), 
+        m_weapon[0](other.m_weapon[0]), m_weapon[1](other.m_weapon[1])
         {
-            std::copy(std::begin(other.m_weapon), std::end(other.m_weapon), std::begin(m_weapon));
         }
     // returns the damage that character can do in an attack, 
     // assuming that Weapon_t supports converting to double
@@ -71,7 +71,7 @@ namespace seneca {
         dmg -= getDefense();
         dmg = std::max(dmg, 0);
         m_ability.transformDamageReceived(dmg);
-        takeDamage(dmg);
+        Character::takeDamage(dmg);
     }
 
 

@@ -22,7 +22,7 @@
 #include "characterTpl.h"
 namespace seneca {
     template <typename Weapon_t>
-    class Archer : public CharacterTpl {
+    class Archer : public CharacterTpl<seneca::SuperHealth> {
         private:
             int m_baseDefense;
             int m_baseAttack;
@@ -35,6 +35,6 @@ namespace seneca {
             Character* clone() const override;
             void attack(Character* enemy) override;
             void takeDamage(int dmg);
-    }
+    };
 }
 #endif

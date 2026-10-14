@@ -27,12 +27,12 @@ namespace seneca {
             T m_health;
         public:
             CharacterTpl(const char* name, const int health);
-            CharacterTpl(const CharacterTpl& other)
+            CharacterTpl(const CharacterTpl& other);
             void takeDamage(int dmg) override;
             int getHealth() const override;
             int getHealthMax() const override;
             void setHealth(int health) override;
             void setHealthMax(int health) override;
-    }
+    };
 }
 #endif
