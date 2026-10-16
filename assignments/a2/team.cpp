@@ -103,8 +103,59 @@ namespace seneca {
     }
     // adds the character received as parameter to the team ONLY IF the team doesn't have a character with the same name
     void Team::addMember(const Character* c) {
-        for (std::size_t i = 0; i < m_numOfMembers; i++) {
-            
+        if (!c) {
+            return;
+        }
+        bool sameName = false;
+        for (std::size_t i = 0; i < m_numOfMembers && !sameName; i++) {
+            sameName = (c->getName() == m_members[i]->getName());
+        }
+        if (!sameName) {
+            std::size_t newNumOfMembers = m_numOfMembers + 1;
+            Character** newMembers = new Character*[newNumOfMembers];
+            for (std::size_t i = 0; i < m_numOfMembers; i++) {
+                newMembers[i] = m_members[i]; 
+            }
+            newMembers[m_numOfMembers] = c->clone();
+            delete[] m_members; 
+            m_members = newMembers;
+            m_numOfMembers = newNumOfMembers;
+        }
     }
-
+    void Team::removeMember(const std::string& c) {
+        std::size_t index = m_numOfMembers + 10;
+        for (std::size_t i = 0; i < m_numOfMembers; i++) {
+            if (m_members[i]->getName() == c) {
+                index = i;
+                break;
+            }
+        }
+        if (index != m_numOfMembers + 10) {
+            delete m_members[index];
+            for (std::size_t i = index; i < m_numOfMembers - 1; i++) {
+                m_members[i] = m_members[i+1];
+            }
+            m_members[--m_numOfMembers] = nullptr;
+        }
+    }
+    Character* Team::operator[](size_t idx) const {
+        if (idx < m_numOfMembers) {
+            return m_members[idx];
+        }
+        else {
+            return nullptr;
+        }
+    }
+    void Team::showMembers() const {
+        if (m_members != nullptr) {
+            std::cout << "[Team] " << m_teamName << std::endl;
+                for (std::size_t i = 0; i < m_numOfMembers; i++) {
+                    std::cout << std::setw(3) << i + 1 << ": " << m_members[i] << std::endl;
+                }
+        }
+        else {
+            std::cout << "No team." << std::endl;
+        }
+        
+    }
 }
