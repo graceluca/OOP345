@@ -101,6 +101,7 @@ namespace seneca {
             other.m_numOfMembers = 0;
             other.m_teamName.clear();
         }
+        return *this;
     }
     // adds the character received as parameter to the team ONLY IF the team doesn't have a character with the same name
     void Team::addMember(const Character* c) {

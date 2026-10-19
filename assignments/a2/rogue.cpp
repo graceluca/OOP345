@@ -26,14 +26,14 @@ namespace seneca {
     template <typename T, typename FirstAbility_t, typename SecondAbility_t>
     Rogue<T, FirstAbility_t, SecondAbility_t>::Rogue(const char* name, 
         int healthMax, int baseAttack, int baseDefense) 
-        : CharacterTpl(name, healthMax), 
+        : CharacterTpl<T>(name, healthMax), 
             m_baseAttack(baseAttack), m_baseDefense(baseDefense)
         {
         }
     // copy constructor (for clone function)
     template <typename T, typename FirstAbility_t, typename SecondAbility_t>
     Rogue<T, FirstAbility_t, SecondAbility_t>::Rogue(const Rogue& other) : 
-        CharacterTpl(other), 
+        CharacterTpl<T>(other), 
         m_baseAttack(other.m_baseAttack), m_baseDefense(other.m_baseDefense)
     {
     }
@@ -55,25 +55,25 @@ namespace seneca {
     // attacks the enemy received as parameter and inflicts damage to it
     template <typename T, typename FirstAbility_t, typename SecondAbility_t>
     void Rogue<T, FirstAbility_t, SecondAbility_t>::attack(Character* enemy) {
-        std::cout << Character::getName() << " is attacking " << enemy.getName() << "." << std::endl;
+        std::cout << this->getName() << " is attacking " << enemy->getName() << "." << std::endl;
         m_firstAbility.useAbility(*this);
         m_secondAbility.useAbility(*this);
-        int damage = getattackAmnt();
+        int damage = getAttackAmnt();
         m_firstAbility.transformDamageDealt(&damage);
         m_secondAbility.transformDamageDealt(&damage);
         std::cout << "Rogue deals " << damage << " melee damage!" << std::endl;
-        enemy.takeDamage(damage);
+        enemy->takeDamage(damage);
     }
     // some other character inflicts damage to the current rogue in the amount specified as parameter.
     template <typename T, typename FirstAbility_t, typename SecondAbility_t>
     void Rogue<T, FirstAbility_t, SecondAbility_t>::takeDamage(int dmg) {
         std::cout 
-            << Character::getName() << " is attacked for " << dmg << " damage." << std::endl
+            << this->getName() << " is attacked for " << dmg << " damage." << std::endl
             << "Rogue has a defense of " << getDefenseAmnt() << ". Reducing damage received." << std::endl;
         dmg -= getDefenseAmnt();
         dmg = std::max(dmg, 0);
         m_firstAbility.transformDamageReceived(&dmg);
         m_secondAbility.transformDamageReceived(&dmg);
-        CharacterTpl::takeDamage(dmg);
+        this->takeDamage(dmg);
     }
 }

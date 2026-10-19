@@ -62,23 +62,24 @@ namespace seneca {
     // attacks the enemy received as a parameter and inflicts damage to it
     template <typename Weapon_t>
     void Archer<Weapon_t>::attack(Character* enemy) {
-        std::cout << Character::getName() << " is attacking " << enemy.getName() << "." << std::endl;
-        int damage = getAttackAmnt();
+        std::cout << this->getName() << " is attacking " << enemy->getName() << "." << std::endl;
+        int damage = this->getAttackAmnt();
         std::cout << "Archer deals " << damage << " ranged damage!" << std::endl;
-        enemy.takeDamage(damage);
+        enemy->takeDamage(damage);
     }
     // some other character inflicts damage to the current archer in the amount specified as parameter.
     // modifies the damage received using the defense capabilities before calling the base class member
     // to update the health
     template <typename Weapon_t>
     void Archer<Weapon_t>::takeDamage(int dmg) {
-        int defense = getDefenseAmnt();
+        int defense = this->getDefenseAmnt();
         std::cout 
-            << Character::getName() << " is attacked for " << dmg << " damage." << std::endl
+            << this->getName() << " is attacked for " << dmg << " damage." << std::endl
             << "Archer has a defense of " << defense << ". Reducing damage received." << std::endl;
         dmg -= defense;
         dmg = std::max(dmg, 0);
-        CharacterTpl::takeDamage(dmg);
+        CharacterTpl<SuperHealth>::takeDamage(dmg);
 
     }
 }
+#endif

@@ -27,23 +27,23 @@ namespace seneca {
     Barbarian<T, Ability_t, Weapon_t>::Barbarian(const char* name, 
         int healthMax, int baseAttack, int baseDefense, 
         Weapon_t primaryWeapon, Weapon_t secondaryWeapon) 
-        : CharacterTpl(name, HealthMax), 
+        : CharacterTpl<T>(name, healthMax), 
             m_baseAttack(baseAttack), m_baseDefense(baseDefense),  
-            m_weapon[0](primaryWeapon), m_weapon[1](secondaryWeapon) {
+            m_weapon{ primaryWeapon, secondaryWeapon } {
             }
     // copy constructor (for clone function)
     template <typename T, typename Ability_t, typename Weapon_t>
     Barbarian<T, Ability_t, Weapon_t>::Barbarian(const Barbarian& other) 
-    : CharacterTpl(other), 
+    : CharacterTpl<T>(other), 
         m_baseAttack(other.m_baseAttack), m_baseDefense(other.m_baseDefense), 
-        m_weapon[0](other.m_weapon[0]), m_weapon[1](other.m_weapon[1])
+        m_weapon{other.m_weapon[0], other.m_weapon[1]}
         {
         }
     // returns the damage that character can do in an attack, 
     // assuming that Weapon_t supports converting to double
     template <typename T, typename Ability_t, typename Weapon_t>
     int Barbarian<T, Ability_t, Weapon_t>::getAttackAmnt() const {
-        return (m_baseAttack + (m_weapon[0]_damage/2) + (w_weapon[1]_damage/2));
+        return (m_baseAttack + (static_cast<double>(m_weapon[0]) / 2) + (static_cast<double>(m_weapon[1]) / 2));
     }
     // dynamically creates a copy of the current instance and returns its address to the client.
     // calls copy constructor
@@ -55,20 +55,20 @@ namespace seneca {
     // attacks the enemy received as parameter and inflicts damage to it
     template <typename T, typename Ability_t, typename Weapon_t>
     void Barbarian<T, Ability_t, Weapon_t>::attack(Character* enemy) {
-        std::cout << Character::getName() <<  " is attacking " << enemy.getName() << "." << std::endl;
+        std::cout << this->getName() <<  " is attacking " << enemy->getName() << "." << std::endl;
         m_ability.useAbility(*this);
-        int damage = getAttackAmnt;
+        int damage = this->getAttackAmnt();
         m_ability.transformDamageDealt(damage);
         std::cout << "Barbarian deals " << damage << " melee damage!" << std::endl;
-        enemy.takeDamage(damage);
+        enemy->takeDamage(damage);
     }
     // some other character inflicts damage to the current barbarian in the amount specified as parameter
     template <typename T, typename Ability_t, typename Weapon_t>
     void Barbarian<T, Ability_t, Weapon_t>::takeDamage(int dmg) {
         std::cout 
-            << Character::getName() << " is attacked for " << dmg << " damage." << std::endl
-            << "Barbarian has a defense of " << getDefense() << ". Reducing damage received." << std::endl;
-        dmg -= getDefense();
+            << this->getName() << " is attacked for " << dmg << " damage." << std::endl
+            << "Barbarian has a defense of " << this->getDefense() << ". Reducing damage received." << std::endl;
+        dmg -= this->getDefense();
         dmg = std::max(dmg, 0);
         m_ability.transformDamageReceived(dmg);
         Character::takeDamage(dmg);

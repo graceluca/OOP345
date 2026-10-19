@@ -22,7 +22,7 @@
 #include "characterTpl.h"
 namespace seneca {
     template <typename T, typename Ability_t, typename Weapon_t>
-    class Barbarian : public characterTpl<T> {
+    class Barbarian : public CharacterTpl<T> {
         private:
             int m_baseDefense;
             int m_baseAttack;

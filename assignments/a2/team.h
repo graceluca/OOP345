@@ -28,6 +28,7 @@ namespace seneca {
             std::string m_teamName{};
         public:
             Team() = default;
+            ~Team();
             Team(const char* name);
             Team(const Team& other);
             Team& operator=(const Team& other);

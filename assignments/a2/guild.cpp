@@ -17,13 +17,13 @@
 ***********************************************************************/
 #include <iostream>
 #include <string>
-#include "character.h
+#include "character.h"
 #include "guild.h"
 using namespace std;
 namespace seneca {
     // creates a team with the name specified as parameter and no members
     Guild::Guild(const char* name) : Guild()  {
-        m_guildNameName = name;
+        m_guildName = name;
     }
     // destructor 
     Guild::~Guild() {
@@ -84,6 +84,24 @@ namespace seneca {
         other.m_numOfMembers = 0;
         other.m_guildName.clear();
     }
+    // move operator
+    Guild& Guild::operator=(Guild&& other) noexcept {
+        if (this != &other) {
+            if (m_members != nullptr) {
+                for (std::size_t i = 0; i < m_numOfMembers; i++) {
+                    delete m_members[i];
+                }
+                delete[] m_members;
+            }
+            m_members = other.m_members;
+            m_numOfMembers = other.m_numOfMembers;
+            m_guildName = other.m_guildName;
+            other.m_members = nullptr;
+            other.m_numOfMembers = 0;
+            other.m_guildName.clear();
+        }
+        return *this;
+    }
     // adds the character received as parameter to the guild ONLY IF the guild doesn't have a character with the same name.
     // add 300 hp to character's max health
     void Guild::addMember(Character* c) {
@@ -100,7 +118,7 @@ namespace seneca {
             for (std::size_t i = 0; i < m_numOfMembers; i++) {
                 newMembers[i] = m_members[i]; 
             }
-            c.setHealthMax(c.getHealthMax() + 300);
+            c->setHealthMax(c->getHealthMax() + 300);
             newMembers[m_numOfMembers] = c;
             delete[] m_members; 
             m_members = newMembers;
@@ -118,7 +136,7 @@ namespace seneca {
             }
         }
         if (index != m_numOfMembers) {
-            m_members[index].setHealthMax(m_members[index].getHealthMax - 300);
+            m_members[index]->setHealthMax(m_members[index]->getHealthMax() - 300);
             for (std::size_t i = index; i < m_numOfMembers - 1; i++) {
                 m_members[i] = m_members[i+1];
             }
@@ -126,7 +144,7 @@ namespace seneca {
         }
     }
     // returns the character at the index specified as parameter, or null if the index is out of bounds
-    Character* guild::operator[](std::size_t idx) const {
+    Character* Guild::operator[](std::size_t idx) const {
         if (idx < m_numOfMembers) {
             return m_members[idx];
         }
@@ -143,7 +161,7 @@ namespace seneca {
     */
     void Guild::showMembers() const {
         if (m_members != nullptr) {
-            std::cout << "[Guild] " << m_teamName << std::endl;
+            std::cout << "[Guild] " << m_guildName << std::endl;
                 for (std::size_t i = 0; i < m_numOfMembers; i++) {
                     std::cout << "    " << i + 1 << ": " << m_members[i] << std::endl;
                 }

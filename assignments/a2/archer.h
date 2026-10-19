@@ -20,6 +20,7 @@
 #include <iostream>
 #include "character.h"
 #include "characterTpl.h"
+#include "health.h"
 namespace seneca {
     template <typename Weapon_t>
     class Archer : public CharacterTpl<seneca::SuperHealth> {
