@@ -38,7 +38,7 @@ namespace seneca {
                 }
         // copy constructor (for classes with clone functions)
             CharacterTpl(const CharacterTpl& other) :
-                Character(other.getName()), m_healthMax(other.getHealth()), m_health(other.getHealth()) {
+                Character(other.getName().c_str()), m_healthMax(other.m_healthMax), m_health(other.m_health) {
             }
         // reduces the current health by the value of the parameter.
             void takeDamage(int dmg) override {

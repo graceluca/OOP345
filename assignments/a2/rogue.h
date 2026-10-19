@@ -26,8 +26,8 @@ namespace seneca {
     template <typename T, typename FirstAbility_t, typename SecondAbility_t>
     class Rogue : public CharacterTpl<T> {
         private: 
-            int m_baseDefense;
             int m_baseAttack;
+            int m_baseDefense;
             FirstAbility_t m_firstAbility;
             SecondAbility_t m_secondAbility;
             seneca::Dagger m_weapon;
@@ -63,8 +63,8 @@ namespace seneca {
                 m_firstAbility.useAbility(this);
                 m_secondAbility.useAbility(this);
                 int damage = getAttackAmnt();
-                m_firstAbility.transformDamageDealt(&damage);
-                m_secondAbility.transformDamageDealt(&damage);
+                m_firstAbility.transformDamageDealt(damage);
+                m_secondAbility.transformDamageDealt(damage);
                 std::cout << "Rogue deals " << damage << " melee damage!" << std::endl;
                 enemy->takeDamage(damage);
             }
@@ -75,8 +75,8 @@ namespace seneca {
                     << "Rogue has a defense of " << getDefenseAmnt() << ". Reducing damage received." << std::endl;
                 dmg -= getDefenseAmnt();
                 dmg = std::max(dmg, 0);
-                m_firstAbility.transformDamageReceived(&dmg);
-                m_secondAbility.transformDamageReceived(&dmg);
+                m_firstAbility.transformDamageReceived(dmg);
+                m_secondAbility.transformDamageReceived(dmg);
                 this->takeDamage(dmg);
             }
     };

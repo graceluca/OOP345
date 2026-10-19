@@ -27,8 +27,8 @@ namespace seneca {
     template <typename Weapon_t>
     class Archer : public CharacterTpl<seneca::SuperHealth> {
         private:
-            int m_baseDefense;
             int m_baseAttack;
+            int m_baseDefense;
             Weapon_t m_weapon;
         public:
             // constructor using passed values

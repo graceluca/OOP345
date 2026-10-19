@@ -25,8 +25,8 @@ namespace seneca {
     template <typename T, typename Ability_t, typename Weapon_t>
     class Barbarian : public CharacterTpl<T> {
         private:
-            int m_baseDefense;
             int m_baseAttack;
+            int m_baseDefense;
             Ability_t m_ability;
             Weapon_t m_weapon[2];
         public: 
