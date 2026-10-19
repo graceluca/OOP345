@@ -61,7 +61,7 @@ namespace seneca {
             void attack(Character* enemy) override {
                 std::cout << this->getName() << " is attacking " << enemy->getName() << "." << std::endl;
                 int damage = this->getAttackAmnt();
-                std::cout << "Archer deals " << damage << " ranged damage!" << std::endl;
+                std::cout << "    Archer deals " << damage << " ranged damage!" << std::endl;
                 enemy->takeDamage(damage);
             }
             // some other character inflicts damage to the current archer in the amount specified as parameter.
@@ -71,7 +71,7 @@ namespace seneca {
                 int defense = this->getDefenseAmnt();
                 std::cout 
                     << this->getName() << " is attacked for " << dmg << " damage." << std::endl
-                    << "Archer has a defense of " << defense << ". Reducing damage received." << std::endl;
+                    << "    Archer has a defense of " << defense << ". Reducing damage received." << std::endl;
                 dmg -= defense;
                 dmg = std::max(dmg, 0);
                 CharacterTpl<SuperHealth>::takeDamage(dmg);

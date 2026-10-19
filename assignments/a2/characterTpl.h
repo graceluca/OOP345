@@ -43,8 +43,9 @@ namespace seneca {
         // reduces the current health by the value of the parameter.
             void takeDamage(int dmg) override {
                 m_health -= dmg;
-                std::cout << Character::getName() << ' ';
+                std::cout << "    " << Character::getName() << ' ';
                 if (m_health <= 0) {
+                    m_health = 0;
                     std::cout << "has been defeated!";
                 }
                 else {

@@ -65,14 +65,14 @@ namespace seneca {
                 int damage = getAttackAmnt();
                 m_firstAbility.transformDamageDealt(damage);
                 m_secondAbility.transformDamageDealt(damage);
-                std::cout << "Rogue deals " << damage << " melee damage!" << std::endl;
+                std::cout << "    Rogue deals " << damage << " melee damage!" << std::endl;
                 enemy->takeDamage(damage);
             }
             // some other character inflicts damage to the current rogue in the amount specified as parameter.
             void takeDamage(int dmg) override {
                 std::cout 
                     << this->getName() << " is attacked for " << dmg << " damage." << std::endl
-                    << "Rogue has a defense of " << getDefenseAmnt() << ". Reducing damage received." << std::endl;
+                    << "    Rogue has a defense of " << getDefenseAmnt() << ". Reducing damage received." << std::endl;
                 dmg -= getDefenseAmnt();
                 dmg = std::max(dmg, 0);
                 m_firstAbility.transformDamageReceived(dmg);

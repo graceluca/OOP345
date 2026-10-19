@@ -160,7 +160,7 @@ namespace seneca {
         if (m_members != nullptr) {
             std::cout << "[Guild] " << m_guildName << std::endl;
                 for (std::size_t i = 0; i < m_numOfMembers; i++) {
-                    std::cout << "    " << i + 1 << ": " << m_members[i] << std::endl;
+                    std::cout << "    " << i + 1 << ": " << *m_members[i] << std::endl;
                 }
         }
         else {

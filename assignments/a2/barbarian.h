@@ -67,14 +67,14 @@ namespace seneca {
                 m_ability.useAbility(this);
                 int damage = this->getAttackAmnt();
                 m_ability.transformDamageDealt(damage);
-                std::cout << "Barbarian deals " << damage << " melee damage!" << std::endl;
+                std::cout << "    Barbarian deals " << damage << " melee damage!" << std::endl;
                 enemy->takeDamage(damage);
             }
             // some other character inflicts damage to the current barbarian in the amount specified as parameter
             void takeDamage(int dmg) override {
                 std::cout 
                     << this->getName() << " is attacked for " << dmg << " damage." << std::endl
-                    << "Barbarian has a defense of " << this->getDefenseAmnt() << ". Reducing damage received." << std::endl;
+                    << "    Barbarian has a defense of " << this->getDefenseAmnt() << ". Reducing damage received." << std::endl;
                 dmg -= this->getDefenseAmnt();
                 dmg = std::max(dmg, 0);
                 m_ability.transformDamageReceived(dmg);
