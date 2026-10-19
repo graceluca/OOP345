@@ -26,13 +26,44 @@ namespace seneca {
             int m_healthMax;
             T m_health;
         public:
-            CharacterTpl(const char* name, const int health);
-            CharacterTpl(const CharacterTpl& other);
-            void takeDamage(int dmg) override;
-            int getHealth() const override;
-            int getHealthMax() const override;
-            void setHealth(int health) override;
-            void setHealthMax(int health) override;
+        // receives the name of the character and the maximum health; 
+        // initializes the current instance with the values of the parameters and sets the current health to maximum.
+            CharacterTpl(const char* name, const int health) : 
+                Character(name), m_healthMax(health), m_health(health) {
+            }
+        // copy constructor (for classes with clone functions)
+            CharacterTpl(const CharacterTpl& other) :
+                Character(other.getName()), m_healthMax(other.getHealth()), m_health(other.getHealth()) {
+            }
+        // reduces the current health by the value of the parameter.
+            void takeDamage(int dmg) override {
+                m_health -= dmg;
+                std::cout << Character::getName() << ' ';
+                if (m_health <= 0) {
+                    std::cout << "has been defeated!";
+                }
+                else {
+                    std::cout << "took " << dmg << " damage, " << m_health << " health remaining.";
+                }
+                std::cout << std::endl;
+            }
+        // returns current health
+            int getHealth() const override {
+                return m_health;
+            }
+        // returns current maximum health
+            int getHealthMax() const override {
+                return m_healthMax;
+            }
+        // sets the current health to the value received as parameter
+            void setHealth(int health) override {
+                m_health = health;
+            }
+        // sets the maximum health and current health to the value of the paramter
+            void setHealthMax(int health) override {
+                m_healthMax = health;
+                m_health = health;
+            }
     };
 }
 #endif

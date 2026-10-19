@@ -31,14 +31,53 @@ namespace seneca {
             SecondAbility_t m_secondAbility;
             seneca::Dagger m_weapon;
         public:
-            Rogue(const char* name, int healthMax, int baseAttack, int baseDefense);
-            Rogue(const Rogue& other);
-            int getAttackAmnt() const override;
-            int getDefenseAmnt() const override;
-            Character* clone() const override;
-            void attack(Character* enemy) override;
-            void takeDamage(int dmg) override;
-
+            // initializes a new object to the values receives received as parameters
+            Rogue(const char* name, 
+                int healthMax, int baseAttack, int baseDefense) 
+                : CharacterTpl<T>(name, healthMax), 
+                m_baseAttack(baseAttack), m_baseDefense(baseDefense)
+            {
+            }
+            // copy constructor (for clone function)
+            Rogue(const Rogue& other) : 
+                CharacterTpl<T>(other), 
+                m_baseAttack(other.m_baseAttack), m_baseDefense(other.m_baseDefense)
+            {
+            }
+            // returns the damage that character can do in an attack
+            int getAttackAmnt() const override {
+                return m_baseAttack+(2*static_cast<double>(m_weapon));
+            }
+            // returns the base defense value.
+            int getDefenseAmnt() const override {
+                return m_baseDefense;
+            }
+            // dynamically creates a copy of the current instance and returns its address to the client
+            Character* clone() const override {
+                return new Character(*this);
+            }
+            // attacks the enemy received as parameter and inflicts damage to it
+            attack(Character* enemy) override {
+                std::cout << this->getName() << " is attacking " << enemy->getName() << "." << std::endl;
+                m_firstAbility.useAbility(*this);
+                m_secondAbility.useAbility(*this);
+                int damage = getAttackAmnt();
+                m_firstAbility.transformDamageDealt(&damage);
+                m_secondAbility.transformDamageDealt(&damage);
+                std::cout << "Rogue deals " << damage << " melee damage!" << std::endl;
+                enemy->takeDamage(damage);
+            }
+            // some other character inflicts damage to the current rogue in the amount specified as parameter.
+            void takeDamage(int dmg) override {
+                std::cout 
+                    << this->getName() << " is attacked for " << dmg << " damage." << std::endl
+                    << "Rogue has a defense of " << getDefenseAmnt() << ". Reducing damage received." << std::endl;
+                dmg -= getDefenseAmnt();
+                dmg = std::max(dmg, 0);
+                m_firstAbility.transformDamageReceived(&dmg);
+                m_secondAbility.transformDamageReceived(&dmg);
+                this->takeDamage(dmg);
+            }
     };
 }
 #endif

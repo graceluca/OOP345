@@ -79,7 +79,6 @@ namespace seneca {
         dmg -= defense;
         dmg = std::max(dmg, 0);
         CharacterTpl<SuperHealth>::takeDamage(dmg);
-
+z
     }
 }
-#endif
