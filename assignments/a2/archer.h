@@ -5,7 +5,7 @@
 // Author: Grace Currier-Moritsugu
 // Email: gcurrier-moritsugu@myseneca.ca
 // Student ID: 136335247
-// Contains the headers for the archer module
+// Contains the headers AND code for the archer module
 // 
 // I declare that this submission is the result of my own work and I only copied the code that my professor provided to complete my assignments. 
 // This submitted piece of work has not been shared with any other student or 3rd party content provider except for the code copied from the professor.
@@ -13,6 +13,7 @@
 // -----------------------------------------------------------
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  10/09/2026      Beginning archer module
+// Grace Currier-Moritsugu  10/19/2026      Moving code from the .cpp files into here
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #ifndef SENECA_ARCHER_H
@@ -50,11 +51,11 @@ namespace seneca {
                 return (1.3*m_baseAttack);
             }
             int getDefenseAmnt() const override {
-                return (1.2*m_baseDefense)
+                return (1.2*m_baseDefense);
             }
             // dynamically creates a copy of the current instance and returns its address to the client
             Character* clone() const override {
-                return new Character(*this);
+                return new Archer(*this);
             }
             // attacks the enemy received as a parameter and inflicts damage to it
             void attack(Character* enemy) override {

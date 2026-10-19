@@ -5,7 +5,7 @@
 // Author: Grace Currier-Moritsugu
 // Email: gcurrier-moritsugu@myseneca.ca
 // Student ID: 136335247
-// Contains the headers for the barbarian module
+// Contains the headers AND code for the barbarian module
 // 
 // I declare that this submission is the result of my own work and I only copied the code that my professor provided to complete my assignments. 
 // This submitted piece of work has not been shared with any other student or 3rd party content provider except for the code copied from the professor.
@@ -13,6 +13,7 @@
 // -----------------------------------------------------------
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  10/09/2026      Beginning barbarian module
+// Grace Currier-Moritsugu  10/19/2026      Moving code from the .cpp files into here
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #ifndef SENECA_BARBARIAN_H
@@ -58,12 +59,12 @@ namespace seneca {
             // dynamically creates a copy of the current instance and returns its address to the client.
             // calls copy constructor
             Character* clone() const override {
-                return new Character(*this);
+                return new Barbarian(*this);
             }
             // attacks the enemy received as parameter and inflicts damage to it
             void attack(Character* enemy) override {
                 std::cout << this->getName() <<  " is attacking " << enemy->getName() << "." << std::endl;
-                m_ability.useAbility(*this);
+                m_ability.useAbility(this);
                 int damage = this->getAttackAmnt();
                 m_ability.transformDamageDealt(damage);
                 std::cout << "Barbarian deals " << damage << " melee damage!" << std::endl;
@@ -74,7 +75,7 @@ namespace seneca {
                 std::cout 
                     << this->getName() << " is attacked for " << dmg << " damage." << std::endl
                     << "Barbarian has a defense of " << this->getDefense() << ". Reducing damage received." << std::endl;
-                dmg -= this->getDefense();
+                dmg -= this->getDefenseAmnt();
                 dmg = std::max(dmg, 0);
                 m_ability.transformDamageReceived(dmg);
                 Character::takeDamage(dmg);

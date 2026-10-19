@@ -5,7 +5,7 @@
 // Author: Grace Currier-Moritsugu
 // Email: gcurrier-moritsugu@myseneca.ca
 // Student ID: 136335247
-// Contains the headers for the characterTpl module
+// Contains the headers AND code for the characterTpl module
 // 
 // I declare that this submission is the result of my own work and I only copied the code that my professor provided to complete my assignments. 
 // This submitted piece of work has not been shared with any other student or 3rd party content provider except for the code copied from the professor.
@@ -13,12 +13,14 @@
 // -----------------------------------------------------------
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  10/09/2026      Beginning characterTpl module
+// Grace Currier-Moritsugu  10/19/2026      Moving code from the .cpp files into here
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #ifndef SENECA_CHARACTERTPL_H
 #define SENECA_CHARACTERTPL_H
 #include <iostream>
 #include "character.h"
+#include "health.h"
 namespace seneca {
     template <typename T>
     class CharacterTpl : public Character {
@@ -29,8 +31,11 @@ namespace seneca {
         // receives the name of the character and the maximum health; 
         // initializes the current instance with the values of the parameters and sets the current health to maximum.
             CharacterTpl(const char* name, const int health) : 
-                Character(name), m_healthMax(health), m_health(health) {
-            }
+                Character(name), m_healthMax(), m_health() 
+                {
+                    m_healthMax = health;
+                    m_health = health;
+                }
         // copy constructor (for classes with clone functions)
             CharacterTpl(const CharacterTpl& other) :
                 Character(other.getName()), m_healthMax(other.getHealth()), m_health(other.getHealth()) {

@@ -5,7 +5,7 @@
 // Author: Grace Currier-Moritsugu
 // Email: gcurrier-moritsugu@myseneca.ca
 // Student ID: 136335247
-// Contains the headers for the rogue module
+// Contains the headers AND code for the rogue module
 // 
 // I declare that this submission is the result of my own work and I only copied the code that my professor provided to complete my assignments. 
 // This submitted piece of work has not been shared with any other student or 3rd party content provider except for the code copied from the professor.
@@ -13,6 +13,7 @@
 // -----------------------------------------------------------
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  10/14/2026      Beginning rogue module
+// Grace Currier-Moritsugu  10/19/2026      Moving code from the .cpp files into here
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #ifndef SENECA_ROGUE_H
@@ -54,13 +55,13 @@ namespace seneca {
             }
             // dynamically creates a copy of the current instance and returns its address to the client
             Character* clone() const override {
-                return new Character(*this);
+                return new Rogue(*this);
             }
             // attacks the enemy received as parameter and inflicts damage to it
-            attack(Character* enemy) override {
+            void attack(Character* enemy) override {
                 std::cout << this->getName() << " is attacking " << enemy->getName() << "." << std::endl;
-                m_firstAbility.useAbility(*this);
-                m_secondAbility.useAbility(*this);
+                m_firstAbility.useAbility(this);
+                m_secondAbility.useAbility(this);
                 int damage = getAttackAmnt();
                 m_firstAbility.transformDamageDealt(&damage);
                 m_secondAbility.transformDamageDealt(&damage);
