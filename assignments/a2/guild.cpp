@@ -50,15 +50,10 @@ namespace seneca {
     // copy operator 
     Guild& Guild::operator=(const Guild& other) {
         if (this != &other) {
-            if (m_members != nullptr) {
-                for (std::size_t i = 0; i < m_numOfMembers; i++) {
-                    delete m_members[i];
-                }
-                delete[] m_members;
-            }
+            delete[] m_members;
             m_numOfMembers = other.m_numOfMembers;
             m_guildName = other.m_guildName;
-            if (other.m_numOfMembers == 0) {
+            if (other.m_numOfMembers != 0) {
                 m_members = new Character*[m_numOfMembers];
                 for (std::size_t i = 0; i < m_numOfMembers; i++) {
                     if (other.m_members[i] != nullptr) {
@@ -157,7 +152,7 @@ namespace seneca {
         ...
     */
     void Guild::showMembers() const {
-        if (m_members != nullptr) {
+        if (!m_guildName.empty()) {
             std::cout << "[Guild] " << m_guildName << std::endl;
                 for (std::size_t i = 0; i < m_numOfMembers; i++) {
                     std::cout << "    " << i + 1 << ": " << *m_members[i] << std::endl;

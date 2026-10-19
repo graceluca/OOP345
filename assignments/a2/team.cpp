@@ -62,7 +62,7 @@ namespace seneca {
             }
             m_numOfMembers = other.m_numOfMembers;
             m_teamName = other.m_teamName;
-            if (other.m_numOfMembers == 0) {
+            if (other.m_numOfMembers != 0) {
                 m_members = new Character*[m_numOfMembers];
                 for (std::size_t i = 0; i < m_numOfMembers; i++) {
                     if (other.m_members[i] != nullptr) {
@@ -158,7 +158,7 @@ namespace seneca {
         ...
     */
     void Team::showMembers() const {
-        if (m_members != nullptr) {
+        if (!m_teamName.empty()) {
             std::cout << "[Team] " << m_teamName << std::endl;
                 for (std::size_t i = 0; i < m_numOfMembers; i++) {
                     std::cout << "    " << i + 1 << ": " << *m_members[i] << std::endl;
