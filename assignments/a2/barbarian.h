@@ -74,11 +74,11 @@ namespace seneca {
             void takeDamage(int dmg) override {
                 std::cout 
                     << this->getName() << " is attacked for " << dmg << " damage." << std::endl
-                    << "Barbarian has a defense of " << this->getDefense() << ". Reducing damage received." << std::endl;
+                    << "Barbarian has a defense of " << this->getDefenseAmnt() << ". Reducing damage received." << std::endl;
                 dmg -= this->getDefenseAmnt();
                 dmg = std::max(dmg, 0);
                 m_ability.transformDamageReceived(dmg);
-                Character::takeDamage(dmg);
+                CharacterTpl<T>::takeDamage(dmg);
             }
     };
 }

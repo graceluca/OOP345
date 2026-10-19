@@ -28,9 +28,6 @@ namespace seneca {
     // destructor 
     Guild::~Guild() {
         if (m_members != nullptr) {
-            for (std::size_t i = 0; i < m_numOfMembers; i++) {
-                delete m_members[i];
-            }
             delete[] m_members;
         }
     }
@@ -43,7 +40,7 @@ namespace seneca {
         m_members = new Character*[m_numOfMembers];
         for (std::size_t i = 0; i < m_numOfMembers; i++) {
             if (other.m_members[i] != nullptr) {
-                m_members[i] = other.m_members[i]->clone();
+                m_members[i] = other.m_members[i];
             }
             else {
                 m_members[i] = nullptr;
@@ -65,7 +62,7 @@ namespace seneca {
                 m_members = new Character*[m_numOfMembers];
                 for (std::size_t i = 0; i < m_numOfMembers; i++) {
                     if (other.m_members[i] != nullptr) {
-                        m_members[i] = other.m_members[i]->clone();
+                        m_members[i] = other.m_members[i];
                     }
                     else {
                         m_members[i] = nullptr;
