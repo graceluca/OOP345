@@ -13,6 +13,7 @@
 // -----------------------------------------------------------
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  10/16/2026      Beginning team module
+// Grace Currier-Moritsugu  10/19/2026      Fixed issue in removeMember deallocating the character instead of just removing it
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #include <iostream>
@@ -63,7 +64,7 @@ namespace seneca {
             m_teamName = other.m_teamName;
             if (other.m_numOfMembers == 0) {
                 m_members = new Character*[m_numOfMembers];
-                for (std::size_t i = 0; i <m_numOfMembers; i++) {
+                for (std::size_t i = 0; i < m_numOfMembers; i++) {
                     if (other.m_members[i] != nullptr) {
                         m_members[i] = other.m_members[i]->clone();
                     }
@@ -122,15 +123,16 @@ namespace seneca {
             m_numOfMembers = newNumOfMembers;
         }
     }
+    // searches the team for a character with the name received as parameter and removes it from the team
     void Team::removeMember(const std::string& c) {
-        std::size_t index = m_numOfMembers + 10;
+        std::size_t index = m_numOfMembers;
         for (std::size_t i = 0; i < m_numOfMembers; i++) {
             if (m_members[i]->getName() == c) {
                 index = i;
                 break;
             }
         }
-        if (index != m_numOfMembers + 10) {
+        if (index != m_numOfMembers) {
             delete m_members[index];
             for (std::size_t i = index; i < m_numOfMembers - 1; i++) {
                 m_members[i] = m_members[i+1];
@@ -138,6 +140,7 @@ namespace seneca {
             m_members[--m_numOfMembers] = nullptr;
         }
     }
+    //  returns the character at the index specified as parameter, or null if the index is out of bounds
     Character* Team::operator[](size_t idx) const {
         if (idx < m_numOfMembers) {
             return m_members[idx];
@@ -146,16 +149,22 @@ namespace seneca {
             return nullptr;
         }
     }
+    /* prints to screen the content of current object in the format:
+    [Team] TEAM_NAME<endl>
+        1: FIRST_CHARACTER<endl>
+        2: SECOND_CHARACTER<endl>
+        3: THIRD_CHARACTER<endl>
+        ...
+    */
     void Team::showMembers() const {
         if (m_members != nullptr) {
             std::cout << "[Team] " << m_teamName << std::endl;
                 for (std::size_t i = 0; i < m_numOfMembers; i++) {
-                    std::cout << std::setw(3) << i + 1 << ": " << m_members[i] << std::endl;
+                    std::cout << std::setw(4) << i + 1 << ": " << m_members[i] << std::endl;
                 }
         }
         else {
             std::cout << "No team." << std::endl;
         }
-        
     }
 }

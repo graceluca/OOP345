@@ -29,7 +29,6 @@ namespace seneca {
         public:
             Team() = default;
             Team(const char* name);
-            ~Team();
             Team(const Team& other);
             Team& operator=(const Team& other);
             Team(Team&& other) noexcept;
@@ -38,8 +37,6 @@ namespace seneca {
             void removeMember(const std::string& c);
             Character* operator[](std::size_t idx) const;
             void showMembers() const;
-            
-
     };
 }
 #endif
