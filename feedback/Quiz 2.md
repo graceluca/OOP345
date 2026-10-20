@@ -89,7 +89,7 @@ public:
 
 # Quiz 2
 
-Student: Grace Currier-Moritsugu
+Student: [Grace Currier-Moritsugu](mailto:gcurrier-moritsugu@myseneca.ca?subject=OOP345NAA%20Quiz%202%20-%20Feedback)
 Seneca User ID: gcurrier-moritsugu
 Assessment Version: Version 4
 Points: **23**/30
@@ -127,7 +127,7 @@ Final Mark: **7.67**/10
 
 ## Feedback
 
-Grace, your template, capacity check, return result, and accessor structure are clear. Review the difference between an array of objects and an array of pointers. The inspector must be linked by reference or a non-owning pointer; friend does not create that relationship. Use the current count as the insertion index before increasing it.
+[Grace](mailto:gcurrier-moritsugu@myseneca.ca?subject=OOP345NAA%20Quiz%202%20-%20Feedback), your template, capacity check, return result, and accessor structure are clear. Review the difference between an array of objects and an array of pointers. The inspector must be linked by reference or a non-owning pointer; friend does not create that relationship. Use the current count as the insertion index before increasing it.
 
 # Rubric
 
