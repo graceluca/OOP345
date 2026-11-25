@@ -23,9 +23,9 @@
 namespace seneca {
     class Book : public MediaItem {
         private:
-            std::string m_author{};
-            std::string m_country{};
-            double m_price{};
+            std::string m_author{}; // stored as a string to stay consistent with the inherited title and summary
+            std::string m_country{}; // stored as a string to stay consistent with the inherited title and summary
+            double m_price{}; // stored as a double since the number might include decimals for cents
             Book() = default;
             Book(const std::string title, const std::string& summary, unsigned short year, const std::string author, const std::string country, double price);
         public: 
