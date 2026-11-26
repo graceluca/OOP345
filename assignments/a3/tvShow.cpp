@@ -13,20 +13,39 @@
 // -----------------------------------------------------------
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  11/24/2026      Beginning tvShow module
+// Grace Currier-Moritsugu  11/26/2026      Fixing typos and adding in more functions
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #include <iostream>
 #include <string>
 #include <vector>
+#include <iomanip>
+#include <iterator>
+#include <numeric>
+#include <list>
+#include <algorithm>
 #include "mediaItem.h"
 #include "tvShow.h"
 #include "settings.h"
 namespace seneca {
     TvShow::TvShow(const std::string& title, const std::string& summary, unsigned short year, const std::string id) : 
-        mediaItem(title,summary,year), m_id(id)
+        MediaItem(title,summary,year), m_id(id)
     {
-        m_episodes
     }
+    bool TvShow::matchingId(std::string otherId) const {
+        return m_id == otherId;
+    }
+
+    bool TvShow::isLong(const TvEpisode episode) const {
+        return episode.m_length >= 3600;
+    }
+
+    unsigned int TvShow::convertTime(const std::string& time) const {
+                unsigned int hours = std::stoi(time.substr(0,2));
+                unsigned int minutes = std::stoi(time.substr(3,2));
+                unsigned int seconds = std::stoi(time.substr(6,2));
+                return (hours * 3600) + (minutes * 60) + seconds; 
+            }
 
     void TvShow::display(std::ostream& out) const {
         if (g_settings.m_tableView)
@@ -87,23 +106,29 @@ namespace seneca {
         std::string id = strShow.substr(0, indexA);
 
         // find the title
-        indexA = strShow.substr(indexA, strMovie.length()).find_first_not_of(' ');
-        indexB = strMovie.find(',', indexA);
-        std::string title = strMovie.substr(indexA, indexB);
+        indexA = strShow.substr(indexA).find_first_not_of(' ');
+        indexB = strShow.find(',', indexA);
+        std::string title = strShow.substr(indexA, indexB - indexA);
 
         // find the year
-        indexA = strMovie.substr(indexA, strMovie.length()).find_first_not_of(' ');
-        indexB = strMovie.find(',', indexA);
-        unsigned short year = std::stoi(strMovie.substr(indexA, indexB), nullptr);
+        indexA = strShow.substr(indexB).find_first_not_of(' ');
+        indexB = strShow.find(',', indexA);
+        unsigned short year = std::stoi(strShow.substr(indexA, indexB - indexA), nullptr);
 
         // find the summary
         indexA = strShow.substr(indexB, strShow.length()).find_first_not_of(' ');
         std::string summary = strShow.substr(indexA);
         
-        return new TvShow(id,title,summary,year);
+        return new TvShow(title,summary,year,id);
     }
 
-    template<typename Collection_t> 
-    void TvShow::addEpisode(Collection_t& col, const std::string& strEpisode);
-    double TvShow::getEpisodeAverageLength() const;
+    double TvShow::getEpisodeAverageLength() const {
+        unsigned int totalLength = std::accumulate(
+            m_episodes.begin(), m_episodes.end(), 0, 
+                [](unsigned int sum, const TvEpisode& episode) {
+                    return sum + episode.m_length; 
+                });
+        return totalLength / m_episodes.size();
+    }
+
 }
