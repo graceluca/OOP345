@@ -14,6 +14,7 @@
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  11/24/2026      Beginning tvShow module
 // Grace Currier-Moritsugu  11/26/2026      Fixing typos and adding in more functions
+// Grace Currier-Moritsugu  11/27/2026      Removed redundant helper function
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #ifndef SENECA_TVSHOW_H
@@ -39,10 +40,9 @@ namespace seneca {
     class TvShow : public MediaItem {
         private:
             std::string m_id{}; // stored as a string due to the length and complexities of these ids
-            std::vector<TvEpisode> m_episodes; // stored as a vector for ease of scaling and addition
+            std::list<TvEpisode> m_episodes; // stored as a list for ease of scaling and addition
             TvShow(const std::string& title, const std::string& summary, unsigned short year, const std::string id);
             bool matchingId(std::string otherId) const;
-            bool isLong(const TvEpisode episode) const;
             unsigned int convertTime(const std::string& time) const;
         public:
             void display(std::ostream& out) const override;

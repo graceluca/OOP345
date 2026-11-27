@@ -14,6 +14,7 @@
 // Name                     Date            Reason
 // Grace Currier-Moritsugu  11/24/2026      Beginning tvShow module
 // Grace Currier-Moritsugu  11/26/2026      Fixing typos and adding in more functions
+// Grace Currier-Moritsugu  11/27/2026      Changing episodes to list
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #include <iostream>
@@ -29,15 +30,11 @@
 #include "settings.h"
 namespace seneca {
     TvShow::TvShow(const std::string& title, const std::string& summary, unsigned short year, const std::string id) : 
-        MediaItem(title,summary,year), m_id(id)
+        MediaItem(title,summary,year), m_id(id), m_episodes()
     {
     }
     bool TvShow::matchingId(std::string otherId) const {
         return m_id == otherId;
-    }
-
-    bool TvShow::isLong(const TvEpisode episode) const {
-        return episode.m_length >= 3600;
     }
 
     unsigned int TvShow::convertTime(const std::string& time) const {
@@ -125,10 +122,24 @@ namespace seneca {
     double TvShow::getEpisodeAverageLength() const {
         unsigned int totalLength = std::accumulate(
             m_episodes.begin(), m_episodes.end(), 0, 
-                [](unsigned int sum, const TvEpisode& episode) {
+                [](unsigned int sum, const auto& episode) {
                     return sum + episode.m_length; 
                 });
         return totalLength / m_episodes.size();
     }
+    std::list<std::string> TvShow::getLongEpisodes() const {
+        std::list<TvEpisode> longEps;
+        std::list<std::string> longEpsStr;
+
+        std::copy_if(m_episodes.begin(), m_episodes.end(), 
+            std::back_inserter(longEps), [] (const auto& episode) { return episode.m_length >= 3600; });
+
+        std::transform(longEps.begin(), longEps.end(), std::back_inserter(longEpsStr), [](const auto& episode) {
+            return episode.m_title;
+        });
+        return longEpsStr;
+    }
+
+
 
 }
