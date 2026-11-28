@@ -132,7 +132,10 @@ namespace seneca {
         std::list<std::string> longEpsStr;
 
         std::copy_if(m_episodes.begin(), m_episodes.end(), 
-            std::back_inserter(longEps), [] (const auto& episode) { return episode.m_length >= 3600; });
+            std::back_inserter(longEps), 
+                [](const auto& episode) { 
+                        return episode.m_length >= 3600; 
+                    });
 
         std::transform(longEps.begin(), longEps.end(), std::back_inserter(longEpsStr), [](const auto& episode) {
             return episode.m_title;
